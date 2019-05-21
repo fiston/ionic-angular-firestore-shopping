@@ -16,6 +16,12 @@ const routes: Routes = [
             path: '',
             loadChildren:
               '../pages/shopping-list/shopping-list.module#ShoppingListPageModule'
+          },
+          {
+            path: 'shopping-list-add',
+            loadChildren:
+              '../pages/shopping-list-add/shopping-list-add.module#ShoppingListAddPageModule',
+            canActivate: [AuthGuard]
           }
         ]
       },
@@ -26,6 +32,12 @@ const routes: Routes = [
             path: '',
             loadChildren:
               '../pages/inventory/inventory.module#InventoryPageModule'
+          },
+          {
+            path: 'inventory-add',
+            loadChildren:
+              '../pages/inventory-add/inventory-add.module#InventoryAddPageModule',
+            canActivate: [AuthGuard]
           }
         ]
       },

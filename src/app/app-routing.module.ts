@@ -9,12 +9,6 @@ const routes: Routes = [
     loadChildren: './pages/signup/signup.module#SignupPageModule'
   },
   {
-    path: 'shopping-list-add',
-    loadChildren:
-      './pages/shopping-list-add/shopping-list-add.module#ShoppingListAddPageModule',
-    canActivate: [AuthGuard]
-  },
-  {
     path: 'password-reset',
     loadChildren:
       './pages/password-reset/password-reset.module#PasswordResetPageModule'
@@ -23,12 +17,7 @@ const routes: Routes = [
     path: 'login',
     loadChildren: './pages/login/login.module#LoginPageModule'
   },
-  {
-    path: 'inventory-add',
-    loadChildren:
-      './pages/inventory-add/inventory-add.module#InventoryAddPageModule',
-    canActivate: [AuthGuard]
-  },
+
   {
     path: 'add-user',
     loadChildren: './pages/add-user/add-user.module#AddUserPageModule',

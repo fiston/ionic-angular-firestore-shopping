@@ -7,6 +7,7 @@
 <ion-content padding class="auth-page">
   <img src="http://placehold.it/300x100" />
   <form [formGroup]="createUserForm">
+
     <ion-item>
       <ion-label position="stacked">Email</ion-label>
       <ion-input formControlName="email" type="email" placeholder="Your email address"
@@ -21,4 +22,5 @@
     <ion-button (click)="createUser(createUserForm)" expand="block" [disabled]="!createUserForm.valid">
       Add new User
     </ion-button>
+  </form>
 </ion-content>
