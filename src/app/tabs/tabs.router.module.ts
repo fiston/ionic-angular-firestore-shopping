@@ -38,6 +38,12 @@ const routes: Routes = [
             loadChildren:
               '../pages/inventory-add/inventory-add.module#InventoryAddPageModule',
             canActivate: [AuthGuard]
+          },
+          {
+            path: 'inventory-add/:inShoppingList',
+            loadChildren:
+              '../pages/inventory-add/inventory-add.module#InventoryAddPageModule',
+            canActivate: [AuthGuard]
           }
         ]
       },
