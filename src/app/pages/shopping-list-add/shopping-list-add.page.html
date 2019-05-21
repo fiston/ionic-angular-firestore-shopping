@@ -4,6 +4,18 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content padding>
+  <ion-content padding>
+    <h3>Add groceries to your shopping list</h3>
 
+    <ion-list>
+      <ion-item *ngFor="let grocery of groceryList | async">
+        <ion-label> {{ grocery.name }} </ion-label>
+        <ion-button slot="end" (click)="addGrocery(grocery.id,
+          grocery.teamId)">
+          <ion-icon slot="icon-only" name="add"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </ion-list>
+  </ion-content>
 </ion-content>
