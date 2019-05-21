@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+
 import { TabsPage } from './tabs.page';
+import { AuthGuard } from '../services/auth.guard';
 
 const routes: Routes = [
   {
@@ -8,50 +10,54 @@ const routes: Routes = [
     component: TabsPage,
     children: [
       {
-        path: 'tab1',
+        path: 'shopping-list',
         children: [
           {
             path: '',
-            loadChildren: '../tab1/tab1.module#Tab1PageModule'
+            loadChildren:
+              '../pages/shopping-list/shopping-list.module#ShoppingListPageModule'
+          },
+          {
+            path: 'shopping-list-add',
+            loadChildren:
+              './pages/shopping-list-add/shopping-list-add.module#ShoppingListAddPageModule',
+            canActivate: [AuthGuard]
           }
         ]
       },
       {
-        path: 'tab2',
+        path: 'inventory',
         children: [
           {
             path: '',
-            loadChildren: '../tab2/tab2.module#Tab2PageModule'
-          }
-        ]
-      },
-      {
-        path: 'tab3',
-        children: [
+            loadChildren:
+              '../pages/inventory/inventory.module#InventoryPageModule'
+          },
           {
-            path: '',
-            loadChildren: '../tab3/tab3.module#Tab3PageModule'
+            path: 'inventory-add',
+            loadChildren:
+              './pages/inventory-add/inventory-add.module#InventoryAddPageModule',
+            canActivate: [AuthGuard]
           }
         ]
       },
       {
         path: '',
-        redirectTo: '/tabs/tab1',
+        redirectTo: '/tabs/shopping-list',
         pathMatch: 'full'
       }
-    ]
+    ],
+    canActivate: [AuthGuard]
   },
   {
     path: '',
-    redirectTo: '/tabs/tab1',
+    redirectTo: '/tabs/inventory',
     pathMatch: 'full'
   }
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forChild(routes)
-  ],
+  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
 export class TabsPageRoutingModule {}
