@@ -1,14 +1,23 @@
 import { Injectable } from '@angular/core';
 import * as firebase from 'firebase/app';
 import { AngularFireAuth } from '@angular/fire/auth';
+import {
+  AngularFirestore,
+  AngularFirestoreCollection,
+  AngularFirestoreDocument
+} from '@angular/fire/firestore';
+import { Grocery } from '../models/grocery';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InventoryService {
   userId: string;
-  constructor(private afAuth: AngularFireAuth) {
-    this.afAuth.authState.subscribe(user => {
+  constructor(
+    public fireStore: AngularFirestore,
+    public afAuth: AngularFireAuth
+  ) {
+    afAuth.authState.subscribe(user => {
       if (user) {
         this.userId = user.uid;
       }
@@ -22,5 +31,46 @@ export class InventoryService {
       .get();
 
     return userProfile.data().teamId;
+  }
+
+  getGroceryList(teamId: string): AngularFirestoreCollection<Grocery> {
+    return this.fireStore.collection<Grocery>(
+      `/teamProfile/${teamId}/groceryList`,
+      ref => ref.orderBy('quantity')
+    );
+  }
+
+  addGroceryQuantity(
+    groceryId: string,
+    quantity: number,
+    teamId: string
+  ): Promise<void> {
+    const groceryRef: firebase.firestore.DocumentReference = this.fireStore.doc(
+      `/teamProfile/${teamId}/groceryList/${groceryId}`
+    ).ref;
+
+    return this.fireStore.firestore.runTransaction(transaction => {
+      return transaction.get(groceryRef).then(groceryDoc => {
+        const newQuantity: number = groceryDoc.data().quantity + quantity;
+        transaction.update(groceryRef, { quantity: newQuantity });
+      });
+    });
+  }
+
+  removeGroceryQuantity(
+    groceryId: string,
+    quantity: number,
+    teamId: string
+  ): Promise<void> {
+    const groceryRef = this.fireStore.doc(
+      `/teamProfile/${teamId}/groceryList/${groceryId}`
+    ).ref;
+
+    return this.fireStore.firestore.runTransaction(transaction => {
+      return transaction.get(groceryRef).then(groceryDoc => {
+        const newQuantity: number = groceryDoc.data().quantity - quantity;
+        transaction.update(groceryRef, { quantity: newQuantity });
+      });
+    });
   }
 }
