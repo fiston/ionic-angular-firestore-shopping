@@ -13,6 +13,7 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { firebaseConfig } from './credentials';
+import { AngularFireAuthGuard } from '@angular/fire/auth-guard';
 
 @NgModule({
   declarations: [AppComponent],
@@ -28,6 +29,7 @@ import { firebaseConfig } from './credentials';
   providers: [
     StatusBar,
     SplashScreen,
+    AngularFireAuthGuard,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

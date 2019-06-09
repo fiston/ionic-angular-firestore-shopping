@@ -2,7 +2,10 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { TabsPage } from './tabs.page';
-import { AuthGuard } from '../services/auth.guard';
+
+import { redirectUnauthorizedTo, canActivate } from '@angular/fire/auth-guard';
+
+const redirectUnauthorizedToLogin = redirectUnauthorizedTo(['login']);
 
 const routes: Routes = [
   {
@@ -21,7 +24,7 @@ const routes: Routes = [
             path: 'shopping-list-add',
             loadChildren:
               '../pages/shopping-list-add/shopping-list-add.module#ShoppingListAddPageModule',
-            canActivate: [AuthGuard]
+            ...canActivate(redirectUnauthorizedToLogin)
           }
         ]
       },
@@ -37,13 +40,13 @@ const routes: Routes = [
             path: 'inventory-add',
             loadChildren:
               '../pages/inventory-add/inventory-add.module#InventoryAddPageModule',
-            canActivate: [AuthGuard]
+            ...canActivate(redirectUnauthorizedToLogin)
           },
           {
             path: 'inventory-add/:inShoppingList',
             loadChildren:
               '../pages/inventory-add/inventory-add.module#InventoryAddPageModule',
-            canActivate: [AuthGuard]
+            ...canActivate(redirectUnauthorizedToLogin)
           }
         ]
       },
@@ -53,7 +56,7 @@ const routes: Routes = [
         pathMatch: 'full'
       }
     ],
-    canActivate: [AuthGuard]
+    ...canActivate(redirectUnauthorizedToLogin)
   },
   {
     path: '',
