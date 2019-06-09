@@ -22,9 +22,11 @@ export class InventoryAddPage implements OnInit {
     private inventoryService: InventoryService,
     private formBuilder: FormBuilder
   ) {
-    this.inShoppingList = JSON.parse(
-      this.route.snapshot.paramMap.get('inShoppingList')
-    );
+    if (this.route.snapshot.paramMap.has('inShoppingList')) {
+      this.inShoppingList = JSON.parse(
+        this.route.snapshot.paramMap.get('inShoppingList')
+      );
+    }
     this.addGroceryForm = this.formBuilder.group({
       name: ['', Validators.compose([Validators.required])],
       quantity: [0, Validators.compose([Validators.required])],
