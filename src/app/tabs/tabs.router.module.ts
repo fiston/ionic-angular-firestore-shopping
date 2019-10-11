@@ -8,45 +8,45 @@ const routes: Routes = [
     component: TabsPage,
     children: [
       {
-        path: 'tab1',
+        path: 'shopping-list',
         children: [
           {
             path: '',
-            loadChildren: () =>
-              import('../tab1/tab1.module').then(m => m.Tab1PageModule)
+            loadChildren:
+              '../pages/shopping-list/shopping-list.module#ShoppingListPageModule'
+          },
+          {
+            path: 'shopping-list-add',
+            loadChildren:
+              './pages/shopping-list-add/shopping-list-add.module#ShoppingListAddPageModule'
           }
         ]
       },
       {
-        path: 'tab2',
+        path: 'inventory',
         children: [
           {
             path: '',
-            loadChildren: () =>
-              import('../tab2/tab2.module').then(m => m.Tab2PageModule)
-          }
-        ]
-      },
-      {
-        path: 'tab3',
-        children: [
+            loadChildren:
+              '../pages/inventory/inventory.module#InventoryPageModule'
+          },
           {
-            path: '',
-            loadChildren: () =>
-              import('../tab3/tab3.module').then(m => m.Tab3PageModule)
+            path: 'inventory-add',
+            loadChildren:
+              './pages/inventory-add/inventory-add.module#InventoryAddPageModule'
           }
         ]
       },
       {
         path: '',
-        redirectTo: '/tabs/tab1',
+        redirectTo: '/tabs/shopping-list',
         pathMatch: 'full'
       }
     ]
   },
   {
     path: '',
-    redirectTo: '/tabs/tab1',
+    redirectTo: '/tabs/inventory',
     pathMatch: 'full'
   }
 ];
