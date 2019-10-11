@@ -1,33 +1,16 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { redirectUnauthorizedTo, canActivate } from '@angular/fire/auth-guard';
-
-const redirectUnauthorizedToLogin = redirectUnauthorizedTo(['login']);
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
-  { path: '', loadChildren: './tabs/tabs.module#TabsPageModule' },
   {
-    path: 'signup',
-    loadChildren: './pages/signup/signup.module#SignupPageModule'
-  },
-  {
-    path: 'password-reset',
-    loadChildren:
-      './pages/password-reset/password-reset.module#PasswordResetPageModule'
-  },
-  {
-    path: 'login',
-    loadChildren: './pages/login/login.module#LoginPageModule'
-  },
-
-  {
-    path: 'add-user',
-    loadChildren: './pages/add-user/add-user.module#AddUserPageModule',
-    ...canActivate(redirectUnauthorizedToLogin)
+    path: '',
+    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
   }
 ];
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [
+    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
+  ],
   exports: [RouterModule]
 })
 export class AppRoutingModule {}

@@ -1,11 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
 import { TabsPage } from './tabs.page';
-
-import { redirectUnauthorizedTo, canActivate } from '@angular/fire/auth-guard';
-
-const redirectUnauthorizedToLogin = redirectUnauthorizedTo(['login']);
 
 const routes: Routes = [
   {
@@ -13,54 +8,45 @@ const routes: Routes = [
     component: TabsPage,
     children: [
       {
-        path: 'shopping-list',
+        path: 'tab1',
         children: [
           {
             path: '',
-            loadChildren:
-              '../pages/shopping-list/shopping-list.module#ShoppingListPageModule'
-          },
-          {
-            path: 'shopping-list-add',
-            loadChildren:
-              '../pages/shopping-list-add/shopping-list-add.module#ShoppingListAddPageModule',
-            ...canActivate(redirectUnauthorizedToLogin)
+            loadChildren: () =>
+              import('../tab1/tab1.module').then(m => m.Tab1PageModule)
           }
         ]
       },
       {
-        path: 'inventory',
+        path: 'tab2',
         children: [
           {
             path: '',
-            loadChildren:
-              '../pages/inventory/inventory.module#InventoryPageModule'
-          },
+            loadChildren: () =>
+              import('../tab2/tab2.module').then(m => m.Tab2PageModule)
+          }
+        ]
+      },
+      {
+        path: 'tab3',
+        children: [
           {
-            path: 'inventory-add',
-            loadChildren:
-              '../pages/inventory-add/inventory-add.module#InventoryAddPageModule',
-            ...canActivate(redirectUnauthorizedToLogin)
-          },
-          {
-            path: 'inventory-add/:inShoppingList',
-            loadChildren:
-              '../pages/inventory-add/inventory-add.module#InventoryAddPageModule',
-            ...canActivate(redirectUnauthorizedToLogin)
+            path: '',
+            loadChildren: () =>
+              import('../tab3/tab3.module').then(m => m.Tab3PageModule)
           }
         ]
       },
       {
         path: '',
-        redirectTo: '/tabs/shopping-list',
+        redirectTo: '/tabs/tab1',
         pathMatch: 'full'
       }
-    ],
-    ...canActivate(redirectUnauthorizedToLogin)
+    ]
   },
   {
     path: '',
-    redirectTo: '/tabs/inventory',
+    redirectTo: '/tabs/tab1',
     pathMatch: 'full'
   }
 ];
