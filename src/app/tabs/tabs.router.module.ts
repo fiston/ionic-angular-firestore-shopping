@@ -18,7 +18,7 @@ const routes: Routes = [
           {
             path: 'shopping-list-add',
             loadChildren:
-              './pages/shopping-list-add/shopping-list-add.module#ShoppingListAddPageModule'
+              '../pages/shopping-list-add/shopping-list-add.module#ShoppingListAddPageModule'
           }
         ]
       },
@@ -33,7 +33,7 @@ const routes: Routes = [
           {
             path: 'inventory-add',
             loadChildren:
-              './pages/inventory-add/inventory-add.module#InventoryAddPageModule'
+              '../pages/inventory-add/inventory-add.module#InventoryAddPageModule'
           }
         ]
       },
