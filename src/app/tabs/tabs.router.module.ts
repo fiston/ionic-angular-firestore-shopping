@@ -8,21 +8,6 @@ const routes: Routes = [
     component: TabsPage,
     children: [
       {
-        path: 'shopping-list',
-        children: [
-          {
-            path: '',
-            loadChildren:
-              '../pages/shopping-list/shopping-list.module#ShoppingListPageModule'
-          },
-          {
-            path: 'shopping-list-add',
-            loadChildren:
-              '../pages/shopping-list-add/shopping-list-add.module#ShoppingListAddPageModule'
-          }
-        ]
-      },
-      {
         path: 'inventory',
         children: [
           {
@@ -34,6 +19,21 @@ const routes: Routes = [
             path: 'inventory-add',
             loadChildren:
               '../pages/inventory-add/inventory-add.module#InventoryAddPageModule'
+          }
+        ]
+      },
+      {
+        path: 'shopping-list',
+        children: [
+          {
+            path: '',
+            loadChildren:
+              '../pages/shopping-list/shopping-list.module#ShoppingListPageModule'
+          },
+          {
+            path: 'shopping-list-add',
+            loadChildren:
+              '../pages/shopping-list-add/shopping-list-add.module#ShoppingListAddPageModule'
           }
         ]
       },

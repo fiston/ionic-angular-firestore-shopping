@@ -26,10 +26,10 @@
           <strong>{{ grocery.quantity }} {{ grocery.units }}</strong>
         </h3>
       </ion-label>
-      <ion-button slot="end" (click)="removeGrocery(grocery.id, grocery.teamId)">
+      <ion-button slot="end" (click)="removeGrocery(grocery.id)">
         <ion-icon slot="icon-only" name="remove"></ion-icon>
       </ion-button>
-      <ion-button slot="end" (click)="addGrocery(grocery.id, grocery.teamId)">
+      <ion-button slot="end" (click)="addGrocery(grocery.id)">
         <ion-icon slot="icon-only" name="add"></ion-icon>
       </ion-button>
     </ion-item>
