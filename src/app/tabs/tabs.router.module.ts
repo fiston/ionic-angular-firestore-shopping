@@ -19,6 +19,11 @@ const routes: Routes = [
             path: 'inventory-add',
             loadChildren:
               '../pages/inventory-add/inventory-add.module#InventoryAddPageModule'
+          },
+          {
+            path: 'inventory-add/:inShoppingList',
+            loadChildren:
+              '../pages/inventory-add/inventory-add.module#InventoryAddPageModule'
           }
         ]
       },
