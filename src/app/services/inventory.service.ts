@@ -78,4 +78,100 @@ export class InventoryService {
         quantityShopping: 0
       });
   }
+
+  async getGroceryListForShoppingList(
+    isInShoppingList: boolean
+  ): Promise<AngularFirestoreCollection<Grocery>> {
+    const teamId: string = await this.authService.getTeamId();
+    return this.firestore.collection<Grocery>(
+      `/teamProfile/${teamId}/groceryList`,
+      ref =>
+        ref
+          .where('inShoppingList', '==', isInShoppingList)
+          .where('picked', '==', false)
+    );
+  }
+
+  async getPickedGroceryListForShoppingList(
+    isInShoppingList: boolean
+  ): Promise<AngularFirestoreCollection<Grocery>> {
+    const teamId: string = await this.authService.getTeamId();
+    return this.firestore.collection<Grocery>(
+      `/teamProfile/${teamId}/groceryList`,
+      ref =>
+        ref
+          .where('inShoppingList', '==', isInShoppingList)
+          .where('picked', '==', true)
+    );
+  }
+
+  async pickUpGroceryFromShoppingList(
+    groceryId: string,
+    quantityShopping: number
+  ): Promise<void> {
+    const teamId: string = await this.authService.getTeamId();
+    const groceryRef: firebase.firestore.DocumentReference = this.firestore.doc(
+      `/teamProfile/${teamId}/groceryList/${groceryId}`
+    ).ref;
+
+    return this.firestore.firestore.runTransaction(transaction => {
+      return transaction.get(groceryRef).then(groceryDoc => {
+        const newQuantity: number =
+          groceryDoc.data().quantity + quantityShopping;
+
+        transaction.update(groceryRef, {
+          quantity: newQuantity,
+          quantityShopping,
+          picked: true
+        });
+      });
+    });
+  }
+
+  async addQuantityGroceryFromShoppingList(
+    groceryId: string,
+    quantityShopping: number
+  ): Promise<void> {
+    const teamId: string = await this.authService.getTeamId();
+    const groceryRef: firebase.firestore.DocumentReference = this.firestore.doc(
+      `/teamProfile/${teamId}/groceryList/${groceryId}`
+    ).ref;
+
+    return this.firestore.firestore.runTransaction(transaction => {
+      return transaction.get(groceryRef).then(groceryDoc => {
+        const newQuantity: number =
+          groceryDoc.data().quantity + quantityShopping;
+        const newQuantityShopping: number =
+          groceryDoc.data().quantityShopping + quantityShopping;
+        transaction.update(groceryRef, {
+          quantity: newQuantity,
+          quantityShopping: newQuantityShopping
+        });
+      });
+    });
+  }
+
+  async removeQuantityGroceryFromShoppingList(
+    groceryId: string,
+    quantityShopping: number
+  ): Promise<void> {
+    const teamId: string = await this.authService.getTeamId();
+    const groceryRef: firebase.firestore.DocumentReference = this.firestore.doc(
+      `/teamProfile/${teamId}/groceryList/${groceryId}`
+    ).ref;
+
+    return this.firestore.firestore.runTransaction(transaction => {
+      return transaction.get(groceryRef).then(groceryDoc => {
+        const newQuantity: number =
+          groceryDoc.data().quantity - quantityShopping;
+        const newQuantityShopping: number =
+          groceryDoc.data().quantityShopping - quantityShopping;
+        transaction.update(groceryRef, {
+          quantity: newQuantity,
+          quantityShopping: newQuantityShopping,
+          picked: newQuantityShopping <= 0 ? false : true
+        });
+      });
+    });
+  }
 }
