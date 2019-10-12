@@ -174,4 +174,15 @@ export class InventoryService {
       });
     });
   }
+
+  async addGroceryToShoppingList(groceryId: string): Promise<void> {
+    const teamId: string = await this.authService.getTeamId();
+    const groceryRef: AngularFirestoreDocument<Grocery> = this.firestore.doc(
+      `/teamProfile/${teamId}/groceryList/${groceryId}`
+    );
+
+    return groceryRef.update({
+      inShoppingList: true
+    });
+  }
 }

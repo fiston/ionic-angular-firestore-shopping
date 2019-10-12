@@ -1,15 +1,26 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Grocery } from '../../models/grocery';
+import { InventoryService } from '../../services/inventory.service';
 
 @Component({
   selector: 'app-shopping-list-add',
   templateUrl: './shopping-list-add.page.html',
-  styleUrls: ['./shopping-list-add.page.scss'],
+  styleUrls: ['./shopping-list-add.page.scss']
 })
 export class ShoppingListAddPage implements OnInit {
-
-  constructor() { }
+  public groceryList: Observable<Grocery[]>;
+  constructor(private inventoryService: InventoryService) {}
 
   ngOnInit() {
+    this.inventoryService
+      .getGroceryListForShoppingList(false)
+      .then(groceryList$ => {
+        this.groceryList = groceryList$.valueChanges();
+      });
   }
 
+  addGrocery(groceryId: string): void {
+    this.inventoryService.addGroceryToShoppingList(groceryId);
+  }
 }
